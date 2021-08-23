@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog Home{% endblock title %}
+<link rel="stylesheet" href="static/style.css">
+<!-- <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"> -->
+{% block js %}
+<!-- <script>
+      let previews=document.getElementsByClassName('preview');
+      Array.from(previews).forEach((element)=>{
+          element.innerHTML=element.innerText;
+      });
+      </script> -->
+{% endblock js %}
+
+{% block body %}
+
+
+{% for post in allposts %}
+<div class="blog-card">
+    <div class="meta">
+        <div class="photo">
+        <a href="/blogpost/{{post.slug}}">
+        <img src="/media/{{post.post_thumbnail}}" alt="">
+        </a>
+        </div>
+        <ul class="details">
+            <li class="author"><a href="#">Author:{{post.author}}</a></li>
+            <li class="date">Posted Date{{post.timestamp}}</li>
+           
+        </ul>
+    </div>
+    <div class="description">
+        <h1>{{post.title}}</h1>
+        <h2>{{post.heading1|safe| truncatechars:100}}</h2>
+        <p> {{post.content|safe| truncatechars:200}}</p>
+        <p class="read-more">
+            <a href="/blogpost/{{post.slug}}">Read More</a>
+        </p>
+    </div>
+</div>
+
+
+
+
+{% endfor %}
+
+{% endblock body %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static from static %}
+
+<link rel="stylesheet" href="{% static 'style.css' %}">
+
+<link rel="stylesheet" href="{% static 'blogstyle.css' %}">
+
+{% block title %}Blog Post{% endblock title %}   
+
+
+{% block body %} 
+
+<div class="wrap">
+
+	<div class="left">
+		<header id="blog">
+			<h1>{{post.title}}</h1>
+			<p>Look for me elsewhere</p>
+			<p><a href="{{post.Facebook_id}}">facebook</a> &mdash; <a href="{{post.twitter_id}}">twitter</a> &mdash; <a href="{{post.Instagram_id}}">instagram</a></p>
+		</header>
+	</div>
+
+	<div class="right">
+		<article>
+			<h2>Author:  {{post.author}}</h2>
+			<h3><p class="date">Publish on: {{post.timestamp}}</p></h3><br><br>
+
+			<!-- <img class="float-right" src="/media/{{post.photo1}}" title="Insurance scams rise"> -->
+
+			<p>{{post.heading1|safe}}</p>
+
+			<p>{{post.heading2|safe}}</p>
+
+
+
+			<p>{{post.content|safe}}</p>	
+
+			
+
+		<footer>
+			<p>Copyright &copy; 2021. <a href="https://instagram.com/thechandrapalsinghrajput">@Lucifer</a></p>
+		</footer>			
+		
+	</div>
+	
+</div>
+
+
+
+
+{% endblock body %}

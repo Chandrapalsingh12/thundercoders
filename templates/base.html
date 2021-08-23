@@ -1,0 +1,47 @@
+{% load static from static %}
+{% load static from static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+
+    
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'blogstyle.css' %}">
+
+    {% block style %}{% endblock style %}
+
+    
+</head>
+
+<!-- <body style="background-image: url({% static 'Background_image.jpg' %});background-size: 100% 100%;
+    background-repeat: no-repeat;"> -->
+<body>
+    
+    <main>
+        <header>
+            <h1>Lucicoder</h1>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/About">About</a>
+                <a href="/Contact">Contact us</a>
+                <a href="/allposts">AllBlogs</a>
+            </nav>
+        </header>
+    </main>
+    {% block body %}
+
+  
+
+  {% endblock body %}
+  
+  {% block js %}
+  {% endblock js %}
+
+</body>
+</html>
