@@ -1,6 +1,10 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from .models import Post, Contact
 from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy, reverse
 
 
 # Create your views here.
@@ -11,7 +15,13 @@ def Home(request):
     return render(request,'index.html', context)
 
 def blog(request, slug):
-    post = Post.objects.filter(slug=slug).first()   
+    post = Post.objects.filter(slug=slug).first()  
+
+    # stuff = get_object_or_404(Post, sno=request.POST.get('post_id'))
+    # total_likes  = stuff.total_likes()
+
+    # post.like = post.like + 1
+    # post.save()
     
     context = {'post': post}
 
@@ -38,5 +48,68 @@ def contact(request):
             messages.success(request,"Sent")
 
     return render(request,'contact.html')
+
 def allpost(request):
     return render(request,'allpost.html')
+
+def signup(request):
+
+    if request.method =="POST":
+            username = request.POST['username']
+            fname = request.POST['fname']
+            lname = request.POST['lname']
+            email = request.POST['email']
+            password = request.POST['password']
+            confirm = request.POST['confirm']
+
+            # if len(username)<10:
+            #      messages.error(request, "Your Username must be 10 characters")
+            #      return redirect("/")
+
+            # if not username.isalnum():
+            #      messages.error(request, "Your Username shoud only contain letters and numbers")
+            #      return redirect("/")
+            
+            if password != confirm:
+                messages.error(request, "Password do not match")
+                return redirect("/")          
+                
+            #Create User
+            myuser = User.objects.create_user(username, email, password)
+            myuser.first_name = fname
+            myuser.last_name = lname
+            myuser.save()
+            messages.success(request, "Your account has been successfully created")
+            return redirect("/")
+    else:
+        return HttpResponse("Error 404 Not Found")
+
+def handelLogin(request):
+    if request.method =="POST":
+        loginusername = request.POST['loginusername']        
+        loginpassword = request.POST['loginpassword']
+
+        user = authenticate(username=loginusername, password=loginpassword)
+        if user is not None:
+            login(request, user)
+            messages.success(request, f"Welcome to lucicoder {user.username} ")
+            return redirect('/')
+        
+        else:
+            messages.error(request, "Invalid account , please try again")
+            return redirect('/')
+    return HttpResponse("Error 404 Not Found")    
+
+def handelLogout(request):
+    logout(request)
+    messages.success(request, "Successfully logout")
+    return redirect('/')
+
+        
+def Likeview(request, pk):
+    posts = get_object_or_404(Post, sno=request.POST.get('post_id'))
+    posts.likes.add(request.user)
+    # return HttpResponse("Liked")
+    return HttpResponseRedirect(reverse('Home'))
+
+   

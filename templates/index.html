@@ -2,7 +2,13 @@
 
 {% block title %}Blog Home{% endblock title %}
 <link rel="stylesheet" href="static/style.css">
-<!-- <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"> -->
+<style>
+  strong {
+    position: relative;
+    top: 30px;
+  }
+</style>
+
 {% block js %}
 <!-- <script>
       let previews=document.getElementsByClassName('preview');
@@ -17,31 +23,126 @@
 
 {% for post in allposts %}
 <div class="blog-card">
-    <div class="meta">
-        <div class="photo">
-        <a href="/blogpost/{{post.slug}}">
+  <div class="meta">
+    <div class="photo">
+      <a href="/blogpost/{{post.slug}}">
         <img src="/media/{{post.post_thumbnail}}" alt="">
-        </a>
-        </div>
-        <ul class="details">
-            <li class="author"><a href="#">Author:{{post.author}}</a></li>
-            <li class="date">Posted Date{{post.timestamp}}</li>
-           
-        </ul>
+     
     </div>
-    <div class="description">
-        <h1>{{post.title}}</h1>
-        <h2>{{post.heading1|safe| truncatechars:100}}</h2>
-        <p> {{post.content|safe| truncatechars:200}}</p>
-        <p class="read-more">
-            <a href="/blogpost/{{post.slug}}">Read More</a>
-        </p>
+    <ul class="details">
+      <li class="author">Author:{{post.author}}</li>
+      <li class="date">Posted Date{{post.timestamp}}</li>
+
+    </ul>
+  </div>
+  <div class="description">
+    <h1>{{post.title}}</h1>
+    <h2>{{post.heading1|safe| truncatechars:100}}</h2>
+    <p> {{post.content|safe| truncatechars:200}}</p>
+    </a>
+
+    
+
+    {% if user.is_authenticated %}
+
+    <form action="{% url 'like_post' post.pk %}" method="POST">
+    {% csrf_token %}
+    <button type="submit", name="post_id", value="{{post.sno}}">
+    <div class="likemaincont">
+      <input type="checkbox" class="like-btn">
+      <i class="fa fa-heart"></i><span style='padding-left: 26px;'>{{post.total_likes}} Likes</span>
+      </input>
     </div>
+    </button>
+   </form> 
+
+    {%else%}
+
+    <i class="fa fa-heart"></i>
+      <p>{{post.total_likes}} Likes login to Like Post</p>
+    {% endif %}
+  </div>
+</div>
+{% endfor %}
+
+
+
+
+<div id="id01" class="modal">
+  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+  <form class="modal-content" action="/signup/" method='post'>{% csrf_token %}
+    <div class="containerabc">
+      <h1>Sign Up</h1>
+
+
+      <label for="email"><b>First Name</b></label>
+      <input type="text" placeholder="Enter First Name" name="fname" required>
+
+      <label for="email"><b>Last Name</b></label>
+      <input type="text" placeholder="Enter Last Name" name="lname" required>
+
+      <label for="email"><b>Username</b></label>
+      <input type="text" placeholder="Enter username" name="username" required>
+
+      <label for="email"><b>Email</b></label>
+      <input type="text" placeholder="Enter Email" name="email" required>
+
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="password" required>
+
+      <label for="psw-repeat"><b>Repeat Password</b></label>
+      <input type="password" placeholder="Repeat Password" name="confirm" required>
+
+      <label>
+        <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
+      </label>
+
+      <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+
+      <div class="clearfix">
+        <button type="submit" class="signupbtn signupbtns">Sign Up</button>
+        <button type="button" onclick="document.getElementById('id01').style.display='none'"
+          class="cancelbtn">Cancel</button>
+      </div>
+    </div>
+  </form>
 </div>
 
+<div id="id02" class="modal">
+  <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+  <form class="modal-content" action="/login/" method='post'>{% csrf_token %}
+    <div class="containerabc">
+      <h1>Login</h1>
+      <p></p>
+      <label for="loginusername"><b>Email</b></label>
+      <input type="text" placeholder="Enter Email" name="loginusername" required>
 
+      <label for="loginpassword"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="loginpassword" required>
+      <label>
+        <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
+      </label>
 
+      <p>Login to your account</p>
 
-{% endfor %}
+      <div class="clearfix">
+        <button type="submit" class="signupbtn signupbtns">Login</button>
+        <!-- <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button> -->
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  // Get the modal
+  var modal = document.getElementById('id01');
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+</script>
 
 {% endblock body %}
