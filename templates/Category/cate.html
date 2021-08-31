@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Blog Home{% endblock title %}
+{% block title %}CatList{% endblock title %}
 <link rel="stylesheet" href="static/style.css">
 <style>
   strong {
@@ -20,8 +20,9 @@
 
 {% block body %}
 
+<!-- <h8>Blog{{catlist.cat}}</h8> -->
 
-{% for post in allposts %}
+{% for post in catlist.posts %}
 <div class="blog-card">
   <div class="meta">
     <div class="photo">

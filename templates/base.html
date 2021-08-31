@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="thundercode blog website where all the latest news avilable">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <title>{% block title %}{% endblock title %}</title>
@@ -15,8 +16,15 @@
 
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="stylesheet" href="{% static 'blogstyle.css' %}">
+    <script data-ad-client="ca-pub-7085819314073879" async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7085819314073879"
+        crossorigin="anonymous"></script>
 
-    {% block style %}{% endblock style %}
+    {% block style %}
+
+
+    {% endblock style %}
 
 
 </head>
@@ -28,25 +36,30 @@
             <h1>Lucicoder</h1>
             <nav>
                 <a href="/">Home</a>
-                <a href="/About">About</a>
+                <div class="dropdown">
+                    <div id="drop">Category</div>
+                    <div class="dropdown-content">
+                        <a href="/category/4">Technology</a>
+                        <a href="/category/5">Fashion</a>
+                        <a href="/category/6">Movies</a>
+                        <a href="/category/7">Traveling</a>
+                    </div>
+                </div>
                 <a href="/Contact">Contact us</a>
-                <a href="#"><button onclick="document.getElementById('id02').style.display='block'"
-                        style="width:auto;">Login</button></a>
-
-                <a href="#"><button onclick="document.getElementById('id01').style.display='block'"
-                        style="width:auto;">Sign Up</button></a>
+                <a href="/login">Login</a>
+                <a href="/signup">Signup</a>
                 {% if user.is_authenticated %}
-                 <a href="/logout">Logout</a>
-                 {%else%}
+                <a href="/logout">Logout</a>
+                {%else%}
 
-                 {% endif %}
+                {% endif %}
             </nav>
         </header>
         <div class="version-footer">
             {% for msg in messages %}
-    <strong>Message:</strong> {{msg}}
- 
-  {% endfor %}
+            <strong>Message:</strong> {{msg}}
+
+            {% endfor %}
 
         </div>
     </main>

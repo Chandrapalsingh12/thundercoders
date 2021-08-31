@@ -12,6 +12,6 @@ urlpatterns = [
     path('signup/', views.signup, name='handelSignup'),
     path('login/', views.handelLogin, name='handelLogin'),
     path('logout/', views.handelLogout, name='handelLogin'),
-    path('like/<int:pk>',views.Likeview, name='like_post')
-    
+    path('like/<int:pk>',views.Likeview, name='like_post'),
+    path('category/<category>',views.CastListView.as_view(), name='category')
 ]
